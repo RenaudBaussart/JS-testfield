@@ -13,3 +13,6 @@ let resultPrompt = prompt(title, [""]);
 let resultConfirm = confirm("do you wish to confirme");
 
 //------------------------------back end methode-----------------------------
+
+//console.log will shot a message in the terminal
+console.log("this is a console log");
