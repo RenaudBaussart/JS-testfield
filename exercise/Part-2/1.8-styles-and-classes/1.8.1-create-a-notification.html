@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create a notification</title>
+</head>
+<body>
+    <button class="notifMaker" onclick="showNotification(notifParrameter)">notif maker</button>
+    <script>
+        function showNotification({top, right, className, html}) {
+            let notifOut = document.createElement('div');
+            notifOut.style.position = 'fixed';
+            notifOut.style.top = `${top}px`;
+            notifOut.style.right = `${right}px`;
+            notifOut.classList.add(className);
+            notifOut.innerHTML = html;
+            document.querySelector('.notifMaker').after(notifOut);
+            setTimeout(() => {
+                notifOut.remove();
+            }, 1500);
+        }
+
+        let notifParrameter = {
+            top: 10, // 10px from the top of the window (by default 0px)
+            right: 10, // 10px from the right edge of the window (by default 0px)
+            html: "Hello!", // the HTML of the notification
+            className: "welcome" // an additional class for the div (optional)
+        };
+    </script>
+</body>
+</html>
