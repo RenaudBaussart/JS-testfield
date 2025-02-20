@@ -20,25 +20,58 @@ class Person {
         this.infected = true;
     }
 }
+
 class Crowd {
-    listOfPerson = [];
-    constructor(numberOfPerson, numberOfDeases) {
-        if (typeof (numberOfPerson) != "number" || typeof (numberOfDeases) != "number") {
-            print("ERROR: the two properties need to be number");
+    constructor(numberOfPerson, numberOfDiseases) {
+        if (typeof numberOfPerson !== "number" || typeof numberOfDiseases !== "number") {
+            console.log("ERROR: the two properties need to be numbers");
             return;
         }
-        if (numberOfDeases > numberOfPerson) {
-            print("ERROR: number of deases exceed number of person");
+        if (numberOfDiseases > numberOfPerson) {
+            console.log("ERROR: number of diseases exceeds number of persons");
             return;
         }
-        for (i = 1; i < numberOfPerson; i++) {
-            if (i < numberOfDeases) {
-                this.listOfPerson.push(new Person(true));
-            }
-            else {
-                this.listOfPerson.push(new Person(false));
-            }
+        this.listOfPerson = [];
+        for (let i = 0; i < numberOfPerson; i++) {
+            this.listOfPerson.push(new Person(i < numberOfDiseases));
         }
+    }
+
+    numberOfDiseases() {
+        return this.listOfPerson.filter(person => person.infected).length;
+    }
+
+    newInfected(numberOfNewPersonInfected) {
+        let count = 0;
+        this.listOfPerson = this.listOfPerson.map(person => {
+            if (!person.infected && count < numberOfNewPersonInfected) {
+                count++;
+                person.catchDisease();
+            }
+            return person;
+        });
+    }
+    LunchSim() {
+        let numberOfIteration = 0;
+        while (numberOfIteration < (this.listOfPerson.length * 10)) {
+            let numberOfInfectedToSpread = 0;
+            if (this.numberOfDiseases() < this.listOfPerson.length) {
+                console.log(`There are ${this.numberOfDiseases()} infected out of ${this.listOfPerson.length} persons!`);
+            } else {
+                console.log(`All of the ${this.listOfPerson.length} persons are infected!`);
+                return;
+            }
+            for (let person of this.listOfPerson) {
+                if (person.infected && person.doesHeSpread(person)) {
+                    numberOfInfectedToSpread++;
+                }
+            }
+            this.newInfected(numberOfInfectedToSpread);
+            numberOfIteration++;
+        }
+        console.log(`Simulation ended after ${numberOfIteration} iterations.`);
     }
 }
 
+let test = new Crowd(20, 3);
+test.LunchSim();
