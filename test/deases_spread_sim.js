@@ -20,25 +20,25 @@ class Person {
         this.infected = true;
     }
 }
-class Crowd{
-    crowd = [];
-    constructor(numberOfPerson,numberOfDeases){
-            if(typeof(numberOfPerson) != "number" || typeof(numberOfDeases) != "number"){
-                print("ERROR: the two properties need to be number");
-                return;
+class Crowd {
+    listOfPerson = [];
+    constructor(numberOfPerson, numberOfDeases) {
+        if (typeof (numberOfPerson) != "number" || typeof (numberOfDeases) != "number") {
+            print("ERROR: the two properties need to be number");
+            return;
+        }
+        if (numberOfDeases > numberOfPerson) {
+            print("ERROR: number of deases exceed number of person");
+            return;
+        }
+        for (i = 1; i < numberOfPerson; i++) {
+            if (i < numberOfDeases) {
+                this.listOfPerson.push(new Person(true));
             }
-            if(numberOfDeases > numberOfPerson){
-                print("ERROR: number of deases exceed number of person");
-                return;
-            }
-            for (i = 1; i < numberOfPerson; i++) {
-                if (i < numberOfDeases){
-                    this.crowd.push(new Person(true));
-                }
-                else{
-                    this.crowd.push(new Person(false));
-                }
+            else {
+                this.listOfPerson.push(new Person(false));
             }
         }
+    }
 }
 
