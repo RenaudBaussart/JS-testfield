@@ -20,14 +20,25 @@ class Person {
         this.infected = true;
     }
 }
+class Crowd{
+    crowd = [];
+    constructor(numberOfPerson,numberOfDeases){
+            if(typeof(numberOfPerson) != "number" || typeof(numberOfDeases) != "number"){
+                print("ERROR: the two properties need to be number");
+                return;
             }
-            else{
-                return false
+            if(numberOfDeases > numberOfPerson){
+                print("ERROR: number of deases exceed number of person");
+                return;
+            }
+            for (i = 1; i < numberOfPerson; i++) {
+                if (i < numberOfDeases){
+                    this.crowd.push(new Person(true));
+                }
+                else{
+                    this.crowd.push(new Person(false));
+                }
             }
         }
-    }
-    CatchDeases() {
-        this.infected = true
-    }
 }
 
