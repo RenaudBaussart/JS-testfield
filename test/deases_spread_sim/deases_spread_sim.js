@@ -76,3 +76,4 @@ class Crowd {
 
 let test = new Crowd(20, 3);
 test.LunchSim();
+ 
