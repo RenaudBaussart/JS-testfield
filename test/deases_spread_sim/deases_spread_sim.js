@@ -1,10 +1,21 @@
 class Person {
-    constructor(isInfected) {
+    infected = false;
+    spreadrate = 0.3;
+    constructor(isInfected, spreadrateIn = 0.3) {
         if (typeof isInfected !== "boolean") {
             console.log("ERROR: the type is not a boolean");
             return;
         }
+        if(typeof spreadrateIn !== "number"){
+            console.log("ERROR: the type is not a boolean");
+            return
+        }
+        if(spreadrateIn > 1 || spreadrateIn < 0){
+            console.log("ERROR: the spread rate is not valid (1 > 0)")
+            return
+        }
         this.infected = isInfected;
+        this.spreadrate = spreadrateIn
     }
 
     doesHeSpread(personTested) {
@@ -12,7 +23,7 @@ class Person {
             console.log("ERROR: this person was not infected");
             return false;
         } else {
-            return Math.random() < 0.3;
+            return Math.random() < this.spreadrate;
         }
     }
 
@@ -22,7 +33,7 @@ class Person {
 }
 
 class Crowd {
-    constructor(numberOfPerson, numberOfDiseases) {
+    constructor(numberOfPerson, numberOfDiseases ,spreadrateIn) {
         if (typeof numberOfPerson !== "number" || typeof numberOfDiseases !== "number") {
             console.log("ERROR: the two properties need to be numbers");
             return;
@@ -31,9 +42,17 @@ class Crowd {
             console.log("ERROR: number of diseases exceeds number of persons");
             return;
         }
+        if(typeof spreadrateIn !== "number"){
+            console.log("ERROR: the type is not a boolean");
+            return
+        }
+        if(spreadrateIn > 1 || spreadrateIn < 0){
+            console.log("ERROR: the spread rate is not valid (1 > 0)")
+            return
+        }
         this.listOfPerson = [];
         for (let i = 0; i < numberOfPerson; i++) {
-            this.listOfPerson.push(new Person(i < numberOfDiseases));
+            this.listOfPerson.push(new Person(i < numberOfDiseases),spreadrateIn);
         }
     }
 
@@ -51,15 +70,16 @@ class Crowd {
             return person;
         });
     }
+
     LunchSim() {
         let numberOfIteration = 0;
         while (numberOfIteration < (this.listOfPerson.length * 10)) {
             let numberOfInfectedToSpread = 0;
             if (this.numberOfDiseases() < this.listOfPerson.length) {
-                console.log(`There are ${this.numberOfDiseases()} infected out of ${this.listOfPerson.length} persons!`);
+                //console.log(`There are ${this.numberOfDiseases()} infected out of ${this.listOfPerson.length} persons!`);
             } else {
-                console.log(`All of the ${this.listOfPerson.length} persons are infected!`);
-                console.log(`Simulation ended after ${numberOfIteration} iterations/days.`);
+                //console.log(`All of the ${this.listOfPerson.length} persons are infected!`);
+                //console.log(`Simulation ended after ${numberOfIteration} iterations/days.`);
                 return;
             }
             for (let person of this.listOfPerson) {
@@ -69,11 +89,16 @@ class Crowd {
             }
             this.newInfected(numberOfInfectedToSpread);
             numberOfIteration++;
+            setTimeout(2000);
         }
-        
     }
 }
-
-let test = new Crowd(20, 3);
-test.LunchSim();
- 
+async function SimulationDomLunch(){
+    const nbrpeople = document.getElementById("nbr_people_toolbox").value;
+    const nbrinfected = document.getElementById("nbr_infected_toolbox").value;
+    const spreadrate = document.getElementById("spread_rate_toolbox").value;
+    const simCrowd = new Crowd(nbrpeople,nbrinfected)
+}
+function changeDisplayOfNumberPeopleInfected(newString){
+    document.getElementByclass("display_text").textContent = newString
+}
