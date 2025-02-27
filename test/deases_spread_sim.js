@@ -59,6 +59,7 @@ class Crowd {
                 console.log(`There are ${this.numberOfDiseases()} infected out of ${this.listOfPerson.length} persons!`);
             } else {
                 console.log(`All of the ${this.listOfPerson.length} persons are infected!`);
+                console.log(`Simulation ended after ${numberOfIteration} iterations/days.`);
                 return;
             }
             for (let person of this.listOfPerson) {
@@ -69,7 +70,7 @@ class Crowd {
             this.newInfected(numberOfInfectedToSpread);
             numberOfIteration++;
         }
-        console.log(`Simulation ended after ${numberOfIteration} iterations.`);
+        
     }
 }
 
